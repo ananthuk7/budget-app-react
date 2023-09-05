@@ -1,7 +1,7 @@
 import { Card, ProgressBar, Stack, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import { currencyFormatter } from '../utils'
-function BudgetCard({ name, amount, max, grey, openExpenseModel, buttonActive }) {
+function BudgetCard({ name, amount, max, grey, openExpenseModel, buttonActive, clickViewExpense }) {
     const classNames = [];
     if (amount > max) {
         classNames.push('bg-danger', 'bg-opacity-10')
@@ -20,7 +20,7 @@ function BudgetCard({ name, amount, max, grey, openExpenseModel, buttonActive })
                 {max && <ProgressBar className="rounded-pill" max={max} min={0} now={amount} variant={getVarientProgress(max, amount)}></ProgressBar>}
                 {!buttonActive && <Stack direction='horizontal' gap="2" className='mt-4' >
                     <Button variant='outline-primary' className='ms-auto' onClick={openExpenseModel}    >Add Expense</Button>
-                    <Button variant='outline-secondary' >View Expense</Button>
+                    <Button variant='outline-secondary' onClick={clickViewExpense}>View Expense</Button>
                 </Stack>}
             </Card.Body>
         </Card>
@@ -41,6 +41,7 @@ BudgetCard.propTypes = {
     grey: PropTypes.bool,
     openExpenseModel: PropTypes.func,
     buttonActive: PropTypes.bool,
+    clickViewExpense: PropTypes.func
 }
 
 export default BudgetCard

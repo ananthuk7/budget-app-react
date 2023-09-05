@@ -30,11 +30,25 @@ export const BudgetsProvider = ({ children }) => {
       return [...prevBudgets, { id: uuid4(), name, max }];
     });
   }
-  function deleteExpenses(expenseId) {
-    return setExpenses(expenses.filter((expense) => expense.id !== expenseId));
+  function deleteExpenses({ id }) {
+    return setExpenses(prevExpenses => {
+      return prevExpenses.filter(expense => expense.id !== id)
+    });
   }
-  function deleteBudget(budgetId) {
-    return setBudgets(expenses.filter((budget) => budget.id !== budgetId));
+  function deleteBudget({ id }) {
+    setExpenses((prevExpenses) => {
+      // console.log(prevExpenses);
+      return prevExpenses.map(expense => {
+        if (expense.budgetId !== id) {
+          return expense;
+        }
+        return { ...expense, budgetId: UNCATAGORIZED_ID }
+      })
+    })
+    console.log(id, expenses);
+    return setBudgets(prevBudgets => {
+      return prevBudgets.filter(budget => budget.id !== id)
+    });
   }
 
   return (
